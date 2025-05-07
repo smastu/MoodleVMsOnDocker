@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  apache:
+    image: httpd:2.4
+    container_name: moodle_apache
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./apache/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./application/moodle:/var/www/moodle
+      - ./application/ssl:/etc/ssl/certs:ro
+    networks:
+      - moodle_network
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    container_name: moodle_php
+    volumes:
+      - ./application/moodle:/var/www/moodle
+      - ./application/moodledata:/var/www/moodledata
+      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
+    environment:
+      UPLOAD_MAX_FILESIZE: 512M
+      POST_MAX_SIZE: 512M
+      MEMORY_LIMIT: 2048M
+      MAX_INPUT_VARS: 9999
+      PHP_IDE_CONFIG: "serverName=moodle"
+    networks:
+      - moodle_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Dockerホストへのアクセスを可能にする
+
+  mysql:
+    image: mysql:8.3
+    user: mysql
+    container_name: moodle_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: moodle
+      MYSQL_USER: moodleuser
+      MYSQL_PASSWORD: moodlepassword
+    volumes:
+      - ./application/mysql_data:/var/lib/mysql
+    networks:
+      - moodle_network
+
+  phpmyadmin:
+    container_name: moodle_phpmyadmin
+    image: phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: moodle_mysql
+      PMA_USER: moodleuser
+      PMA_PASSWORD: moodlepassword
+    ports:
+      - "8080:80"
+    networks:
+      - moodle_network
+
+networks:
+  moodle_network:
+    driver: bridge
