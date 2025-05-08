@@ -59,8 +59,6 @@ MoodleVMsOnDocker/
 │   ├── moodle/       # Moodleのソースコード
 │   ├── moodledata/   # Moodleのデータファイル
 │   └── mysql_data/   # MySQLのデータファイル
-├── logs/             # ログファイル
-├── config/           # 設定ファイル
 ├── .env              # 環境変数
 └── docker-compose.yml
 ```
