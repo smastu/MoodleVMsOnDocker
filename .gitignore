@@ -1,1 +1,3 @@
-application/ssl/
+application/ssl/localhost-key.pem
+application/ssl/localhost.pem
+.DS_Store
