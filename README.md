@@ -80,7 +80,8 @@ brew install mkcert nss
 ```
 
 #### Windows の場合
-https://github.com/FiloSottile/mkcertから対応するバイナリをダウンロードし、インストール手順に従ってください。
+https://github.com/FiloSottile/mkcert
+から対応するバイナリをダウンロードし、インストール手順に従ってください。
 
 ### 証明書の生成と設定
 
@@ -102,8 +103,8 @@ mv localhost.pem localhost-key.pem ./application/ssl/
 ## 使用方法
 
 1. ブラウザで以下のURLにアクセスします：
-   - HTTP: http://localhost:8080
-   - HTTPS: https://localhost:8443
+   - Moodle: https://localhost
+   - PHPMyAdmin: https://localhost:8080
 
 2. 初期設定画面が表示されたら、指示に従ってMoodleの設定を行います。
 
