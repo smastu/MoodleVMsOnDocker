@@ -36,9 +36,6 @@ mkdir -p application/moodle
 mkdir -p application/moodledata
 mkdir -p application/mysql_data
 
-# その他の必要なディレクトリ
-mkdir -p logs
-mkdir -p config
 ```
 
 3. 環境変数ファイルを作成します：
