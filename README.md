@@ -6,6 +6,7 @@ Dockerを使用してMoodleの開発環境を簡単に構築するためのプ�
 
 - [前提条件](#前提条件)
 - [インストール手順](#インストール手順)
+- [ディレクトリ構造](#ディレクトリ構造)
 - [SSL証明書の設定](#ssl証明書の設定)
 - [使用方法](#使用方法)
 - [トラブルシューティング](#トラブルシューティング)
@@ -27,16 +28,44 @@ git clone https://github.com/yourusername/MoodleVMsOnDocker.git
 cd MoodleVMsOnDocker
 ```
 
-2. 環境変数ファイルを作成します：
+2. 必要なディレクトリを作成します：
+```bash
+# アプリケーション関連のディレクトリ
+mkdir -p application/ssl
+mkdir -p application/moodle
+mkdir -p application/moodledata
+mkdir -p application/mysql_data
+
+# その他の必要なディレクトリ
+mkdir -p logs
+mkdir -p config
+```
+
+3. 環境変数ファイルを作成します：
 ```bash
 cp .env.example .env
 ```
 
-3. `.env`ファイルを編集し、必要な設定を行います。
+4. `.env`ファイルを編集し、必要な設定を行います。
 
-4. Dockerコンテナを起動します：
+5. Dockerコンテナを起動します：
 ```bash
 docker-compose up -d
+```
+
+## ディレクトリ構造
+
+```
+MoodleVMsOnDocker/
+├── application/
+│   ├── ssl/          # SSL証明書ファイル
+│   ├── moodle/       # Moodleのソースコード
+│   ├── moodledata/   # Moodleのデータファイル
+│   └── mysql_data/   # MySQLのデータファイル
+├── logs/             # ログファイル
+├── config/           # 設定ファイル
+├── .env              # 環境変数
+└── docker-compose.yml
 ```
 
 ## SSL証明書の設定
@@ -72,7 +101,6 @@ mkcert localhost
 
 3. 生成された証明書ファイルをプロジェクト内の適切なディレクトリに配置します：
 ```bash
-mkdir -p ./application/ssl
 mv localhost.pem localhost-key.pem ./application/ssl/
 ```
 
@@ -110,7 +138,3 @@ mv localhost.pem localhost-key.pem ./application/ssl/
    ```bash
    docker-compose ps
    ```
-
-## ライセンス
-
-このプロジェクトはMITライセンスの下で公開されています。詳細は[LICENSE](LICENSE)ファイルを参照してください。
